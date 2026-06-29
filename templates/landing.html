@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner AI - Your Perfect Trip, Personalized by AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/premium-style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="landing-container">
+        <nav class="container nav-bar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                <span>TravelAI</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#destinations">Destinations</a>
+                <a href="#about">Why Us</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="/login" class="btn btn-secondary">Sign In</a>
+                <a href="/signup" class="btn btn-primary">Get Started</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Your Trip, Your Vibe</h1>
+                    <p>Tell us your vibe and let AI + local experts craft your perfect itinerary</p>
+                    <div class="hero-cta">
+                        <a href="/signup" class="btn btn-primary">Start Planning</a>
+                        <a href="/app" class="btn btn-secondary">Explore Trips</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">Why TravelAI Just Works</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI + Local Experts</h3>
+                    <p>Smart algorithms combined with on-ground experts who know hidden gems</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💬</div>
+                    <h3>Just Chat & Plan</h3>
+                    <p>Tell us your mood, duration, and interests—we handle the rest</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Mood-Based Recommendations</h3>
+                    <p>Get personalized suggestions based on solo, couple, family, or group vibes</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🌤️</div>
+                    <h3>Real-Time Weather & Prices</h3>
+                    <p>Live updates on weather, currency conversion, and transparent pricing</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📱</div>
+                    <h3>Multi-Device Support</h3>
+                    <p>Plan on the go, sync across all your devices seamlessly</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔒</div>
+                    <h3>24/7 Support Ready</h3>
+                    <p>Round-the-clock concierge support when you need it most</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Showcase -->
+    <section class="destinations-section" id="destinations">
+        <div class="container">
+            <h2 class="section-title">Explore 250+ Destinations</h2>
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-image">🏖️</div>
+                    <div class="destination-info">
+                        <h3>Bali, Indonesia</h3>
+                        <div class="destination-tags">
+                            <span class="tag">Beach</span>
+                            <span class="tag">Relaxation</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image">🗼</div>
+                    <div class="destination-info">
+                        <h3>Paris, France</h3>
+                        <div class="destination-tags">
+                            <span class="tag">Romance</span>
+                            <span class="tag">Culture</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image">🏔️</div>
+                    <div class="destination-info">
+                        <h3>Tokyo, Japan</h3>
+                        <div class="destination-tags">
+                            <span class="tag">Adventure</span>
+                            <span class="tag">Food</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image">🌍</div>
+                    <div class="destination-info">
+                        <h3>Dubai, UAE</h3>
+                        <div class="destination-tags">
+                            <span class="tag">Luxury</span>
+                            <span class="tag">Shopping</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image">🦁</div>
+                    <div class="destination-info">
+                        <h3>Kenya Safari</h3>
+                        <div class="destination-tags">
+                            <span class="tag">Wildlife</span>
+                            <span class="tag">Adventure</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-image">🏛️</div>
+                    <div class="destination-info">
+                        <h3>Rome, Italy</h3>
+                        <div class="destination-tags">
+                            <span class="tag">History</span>
+                            <span class="tag">Food</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="container">
+            <h2 class="section-title">Trusted by Travelers Worldwide</h2>
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <h4>100K+</h4>
+                    <p>Happy Travelers</p>
+                </div>
+                <div class="trust-item">
+                    <h4>250+</h4>
+                    <p>Destinations Covered</p>
+                </div>
+                <div class="trust-item">
+                    <h4>4.8★</h4>
+                    <p>Average Rating</p>
+                </div>
+                <div class="trust-item">
+                    <h4>24/7</h4>
+                    <p>Support Available</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What Travelers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">R</div>
+                        <div>
+                            <div class="testimonial-name">Rahul & Priya</div>
+                            <div class="testimonial-role">Honeymoon, Bali</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"TravelAI made our Bali trip so personal. Every activity felt curated just for us. The local expert tips were game-changers!"</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">S</div>
+                        <div>
+                            <div class="testimonial-name">Sanya Patel</div>
+                            <div class="testimonial-role">Solo Traveler, Europe</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"I planned a 2-week European tour in just 30 minutes. The AI understood exactly what I wanted without any back-and-forth!"</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">A</div>
+                        <div>
+                            <div class="testimonial-name">Arjun Family</div>
+                            <div class="testimonial-role">Family Trip, Kerala</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Finally, a trip planner that considers the whole family! Kid-friendly spots, good food, and zero hassle."</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TravelAI. Powered by AI + Human Expertise. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner AI - Plan Your Perfect Trip</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Travel Planner">
+                    <span>Travel Planner AI</span>
+                </div>
+                <div class="header-nav">
+                    <a href="#" class="nav-link active">Chat</a>
+                    <a href="#" class="nav-link">History</a>
+                    <div class="user-menu" style="position: relative;">
+                        <div class="user-avatar" id="user-avatar">U</div>
+                        <div class="dropdown-menu" id="dropdown-menu">
+                            <a href="#" class="dropdown-item" id="user-name">User</a>
+                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item" onclick="logout()">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <button class="new-chat-btn" onclick="newChat()">
+                <i class="fas fa-plus"></i> New Chat
+            </button>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Recent Conversations</div>
+                <div id="conversations-list"></div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="main-content">
+            <div class="chat-area">
+                <div class="messages-container" id="messages-container">
+                    <div class="message assistant">
+                        <div class="message-avatar">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <div class="message-bubble">
+                            <p>Hi! I'm your AI Travel Planner. Tell me about your dream trip and I'll help you create the perfect itinerary.</p>
+                            <p style="margin-top: 8px; font-size: 13px; opacity: 0.8;">Try: "I want a 7-day trip to Paris with medium budget"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="typing-indicator"></div>
+
+                <div class="chat-input-area">
+                    <form class="chat-input-form" id="chat-form">
+                        <input 
+                            type="text" 
+                            id="message-input" 
+                            placeholder="Type your message..." 
+                            autocomplete="off"
+                            required
+                        >
+                        <button type="submit" class="chat-submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="panel-section" id="destination-panel" style="display: none;">
+                <div class="panel-title">
+                    <i class="fas fa-map-marker-alt"></i> Destination
+                </div>
+                <div class="panel-content" id="destination-content"></div>
+            </div>
+
+            <div class="panel-section" id="weather-panel" style="display: none;">
+                <div class="panel-title">
+                    <i class="fas fa-cloud-sun"></i> Weather
+                </div>
+                <div class="panel-content" id="weather-content"></div>
+            </div>
+
+            <div class="panel-section" id="budget-panel" style="display: none;">
+                <div class="panel-title">
+                    <i class="fas fa-wallet"></i> Budget
+                </div>
+                <div class="panel-content" id="budget-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app-new.js') }}"></script>
+</body>
+</html>

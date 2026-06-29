@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Trip - TravelAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004199 100%) !important;
+            box-shadow: 0 10px 40px rgba(0, 102, 204, 0.2) !important;
+        }
+
+        .quick-input-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 244, 248, 0.95));
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 
+                0 10px 40px rgba(0, 102, 204, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-input-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0066cc, #004199);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .quick-input-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 14px;
+            align-items: end;
+        }
+
+        .quick-input-form input,
+        .quick-input-form select {
+            padding: 13px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .quick-input-form input:focus,
+        .quick-input-form select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .quick-input-form button {
+            padding: 13px 28px;
+            background: linear-gradient(135deg, #0066cc, #004199);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .quick-input-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.4);
+        }
+
+        .vibe-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .vibe-btn {
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .vibe-btn:hover {
+            border-color: #0066cc;
+            color: #0066cc;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.15);
+        }
+
+        .vibe-btn.active {
+            background: linear-gradient(135deg, #0066cc, #004199);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.3);
+        }
+
+        .destination-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .destination-preview {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transform: translateZ(0);
+        }
+
+        .destination-preview:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 102, 204, 0.2);
+        }
+
+        .destination-preview-img {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #0066cc, #00d4ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destination-preview-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .destination-preview-info {
+            padding: 16px;
+        }
+
+        .destination-preview-info h4 {
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .destination-preview-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .destination-preview-tag {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 212, 255, 0.1));
+            color: #0066cc;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(0, 102, 204, 0.2);
+        }
+
+        .messages-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(240, 244, 248, 0.7));
+        }
+
+        .message-bubble {
+            border-radius: 16px;
+            padding: 14px 18px;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+        }
+
+        .message.assistant .message-bubble {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 252, 255, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.1);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #0066cc, #004199);
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
+        }
+
+        .new-chat-btn {
+            background: linear-gradient(135deg, #0066cc, #004199) !important;
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3) !important;
+        }
+
+        .new-chat-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.4) !important;
+        }
+
+        .chat-input-form input {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 13px 16px;
+        }
+
+        .chat-input-form input:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+        }
+
+        .chat-input-form button {
+            background: linear-gradient(135deg, #0066cc, #004199);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+            border-radius: 10px;
+        }
+
+        .chat-input-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.4);
+        }
+
+        .right-panel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 252, 255, 0.95));
+        }
+
+        .panel-section {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .panel-title {
+            background: linear-gradient(135deg, #0066cc, #004199);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.05), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            color: #0066cc;
+            font-weight: 700;
+        }
+
+        .chat-input-area {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-top: 2px solid rgba(0, 102, 204, 0.1);
+            display: flex;
+            gap: 10px;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .chat-input-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .chat-input-form input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            background: white;
+            transition: all 0.3s ease;
+            min-height: 50px;
+        }
+
+        .chat-input-form input:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+        }
+
+        .chat-input-form button {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #0066cc, #004199);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            min-height: 50px;
+            min-width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .chat-input-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 102, 204, 0.4);
+            background: linear-gradient(135deg, #004199, #003066);
+        }
+
+        .chat-input-form button:active {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .quick-input-form {
+                grid-template-columns: 1fr;
+            }
+
+            .destination-showcase {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+
+            .chat-input-area {
+                padding: 12px 16px;
+                gap: 8px;
+            }
+
+            .chat-input-form {
+                gap: 8px;
+            }
+
+            .chat-input-form input {
+                padding: 12px 14px;
+                font-size: 14px;
+                min-height: 48px;
+            }
+
+            .chat-input-form button {
+                padding: 12px 16px;
+                font-size: 14px;
+                min-height: 48px;
+                min-width: 48px;
+            }
+
+            .vibe-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-input-area {
+                padding: 10px 12px;
+                gap: 6px;
+            }
+
+            .chat-input-form {
+                gap: 6px;
+            }
+
+            .chat-input-form input {
+                padding: 11px 12px;
+                font-size: 13px;
+                min-height: 44px;
+            }
+
+            .chat-input-form button {
+                padding: 11px 12px;
+                font-size: 13px;
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .quick-input-section {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TravelAI">
+                    <span style="color: white;">TravelAI</span>
+                </div>
+                <div class="header-nav">
+                    <a href="#" class="nav-link active" style="color: white;">Plan</a>
+                    <a href="#" class="nav-link" style="color: white;">Explore</a>
+                    <div class="user-menu" style="position: relative;">
+                        <div class="user-avatar" id="user-avatar">U</div>
+                        <div class="dropdown-menu" id="dropdown-menu">
+                            <a href="#" class="dropdown-item" id="user-name">User</a>
+                            <a href="#" class="dropdown-item" onclick="showMyTrips(event)">My Trips</a>
+                            <a href="#" class="dropdown-item" onclick="showSettings(event)">Settings</a>
+                            <a href="#" class="dropdown-item" onclick="logout(event)">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <div class="sidebar">
+            <button class="new-chat-btn" onclick="newTrip()">
+                <i class="fas fa-plus"></i> New Trip
+            </button>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">My Trips</div>
+                <div id="trips-list"></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="chat-area">
+                <div class="quick-input-section">
+                    <h3><i class="fas fa-magic"></i> Quick Plan</h3>
+                    <form class="quick-input-form" id="quick-form" onsubmit="quickPlan(event)">
+                        <input type="text" id="quick-destination" placeholder="Where to?" required>
+                        <input type="number" id="quick-days" placeholder="Days" min="1" max="30" value="7" required>
+                        <select id="quick-vibe">
+                            <option value="adventure">🎒 Adventure</option>
+                            <option value="relaxation">🏖️ Relaxation</option>
+                            <option value="romance">💑 Romance</option>
+                            <option value="family">👨‍👩‍👧 Family</option>
+                            <option value="culture">🎭 Culture</option>
+                        </select>
+                        <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                    </form>
+
+                    <div class="vibe-selector">
+                        <button class="vibe-btn" onclick="selectVibe('solo')">🧘 Solo</button>
+                        <button class="vibe-btn" onclick="selectVibe('couple')">💑 Couple</button>
+                        <button class="vibe-btn" onclick="selectVibe('family')">👨‍👩‍👧 Family</button>
+                        <button class="vibe-btn" onclick="selectVibe('group')">👯 Friends</button>
+                    </div>
+                </div>
+
+                <div class="messages-container" id="messages-container">
+                    <div class="message assistant">
+                        <div class="message-avatar"><i class="fas fa-plane"></i></div>
+                        <div class="message-bubble">
+                            <p><strong>✨ Welcome to TravelAI!</strong></p>
+                            <p style="margin-top: 8px; opacity: 0.9;">Tell me your travel vibe and I'll create your perfect itinerary using AI + local expert knowledge.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px; margin-bottom: 15px;">
+                        <h3 style="color: #333; font-size: 16px; font-weight: 700;"><i class="fas fa-globe"></i> Popular Destinations</h3>
+                    </div>
+                    <div class="destination-showcase">
+                        <div class="destination-preview" onclick="selectDestination('Bali')">
+                            <div class="destination-preview-img">🏝️</div>
+                            <div class="destination-preview-info">
+                                <h4>Bali</h4>
+                                <div class="destination-preview-tags">
+                                    <span class="destination-preview-tag">Beach</span>
+                                    <span class="destination-preview-tag">Relax</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="destination-preview" onclick="selectDestination('Paris')">
+                            <div class="destination-preview-img">🗼</div>
+                            <div class="destination-preview-info">
+                                <h4>Paris</h4>
+                                <div class="destination-preview-tags">
+                                    <span class="destination-preview-tag">Romance</span>
+                                    <span class="destination-preview-tag">Culture</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="destination-preview" onclick="selectDestination('Tokyo')">
+                            <div class="destination-preview-img">🗾</div>
+                            <div class="destination-preview-info">
+                                <h4>Tokyo</h4>
+                                <div class="destination-preview-tags">
+                                    <span class="destination-preview-tag">Culture</span>
+                                    <span class="destination-preview-tag">Food</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="destination-preview" onclick="selectDestination('Dubai')">
+                            <div class="destination-preview-img">🏙️</div>
+                            <div class="destination-preview-info">
+                                <h4>Dubai</h4>
+                                <div class="destination-preview-tags">
+                                    <span class="destination-preview-tag">Luxury</span>
+                                    <span class="destination-preview-tag">Modern</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="destination-preview" onclick="selectDestination('Switzerland')">
+                            <div class="destination-preview-img">🏔️</div>
+                            <div class="destination-preview-info">
+                                <h4>Switzerland</h4>
+                                <div class="destination-preview-tags">
+                                    <span class="destination-preview-tag">Adventure</span>
+                                    <span class="destination-preview-tag">Nature</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="destination-preview" onclick="selectDestination('Thailand')">
+                            <div class="destination-preview-img">🌴</div>
+                            <div class="destination-preview-info">
+                                <h4>Thailand</h4>
+                                <div class="destination-preview-tags">
+                                    <span class="destination-preview-tag">Adventure</span>
+                                    <span class="destination-preview-tag">Food</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <form class="chat-input-form" id="chat-form" onsubmit="sendMessage(event)">
+                        <input type="text" id="message-input" placeholder="Describe your dream trip in detail...">
+                        <button type="submit" title="Send message">
+                            <i class="fas fa-paper-plane"></i>
+                            <span style="display: none;" class="btn-text">Send</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="panel-section" id="destination-panel" style="display: none;">
+                <div class="panel-title"><i class="fas fa-map-marker-alt"></i> Destination</div>
+                <div class="panel-content" id="destination-content"></div>
+            </div>
+
+            <div class="panel-section" id="weather-panel" style="display: none;">
+                <div class="panel-title"><i class="fas fa-cloud-sun"></i> Weather</div>
+                <div class="panel-content" id="weather-content"></div>
+            </div>
+
+            <div class="panel-section" id="budget-panel" style="display: none;">
+                <div class="panel-title"><i class="fas fa-wallet"></i> Budget</div>
+                <div class="panel-content" id="budget-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app-enhanced.js') }}"></script>
+</body>
+</html>

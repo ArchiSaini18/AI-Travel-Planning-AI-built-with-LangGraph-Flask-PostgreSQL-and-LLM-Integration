@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - TravelAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0066cc 0%, #004199 50%, #00d4ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            padding: 20px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transform: translateZ(0);
+            transition: all 0.3s ease;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-card:hover {
+            box-shadow: 
+                0 30px 80px rgba(0, 102, 204, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #0066cc, #00d4ff);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            box-shadow: 0 15px 35px rgba(0, 102, 204, 0.3);
+            transform: translateZ(50px);
+        }
+
+        .auth-logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .auth-header h1 {
+            font-size: 32px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            padding-right: 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0066cc;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+            padding: 8px;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .form-group.password-field .toggle-password {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password:hover {
+            color: #0066cc;
+            transform: scale(1.2);
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hint-check {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .password-hint.valid .hint-check {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0066cc, #004199);
+            color: white;
+            box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 102, 204, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .auth-footer p {
+            color: #666;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .auth-footer a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .auth-footer a:hover {
+            color: #004199;
+            text-decoration: underline;
+        }
+
+        .error-message,
+        .success-message {
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            border-left: 4px solid #3c3;
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+
+            .auth-header h1 {
+                font-size: 26px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TravelAI">
+                </div>
+                <h1>Join TravelAI</h1>
+                <p>Start planning your perfect trip today</p>
+            </div>
+
+            <div id="error-message"></div>
+            <div id="success-message"></div>
+
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" placeholder="Choose a username" required minlength="3" maxlength="80">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" placeholder="your@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group password-field">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="Create a strong password" required minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-hint" id="password-hint">
+                        <div class="hint-check">✓</div>
+                        <span>At least 8 characters</span>
+                    </div>
+                </div>
+
+                <div class="form-group password-field">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirm-password" placeholder="Re-enter your password" required minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirm-password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-hint" id="confirm-hint">
+                        <div class="hint-check">✓</div>
+                        <span>Passwords match</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Create My Account
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="/login">Sign in here</a></p>
+                <p style="font-size: 12px; margin-top: 15px;">By signing up, you agree to our Terms of Service</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const btn = event.target.closest('.toggle-password');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                field.type = 'password';
+                btn.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+
+        document.getElementById('password').addEventListener('input', (e) => {
+            const hint = document.getElementById('password-hint');
+            hint.classList.toggle('valid', e.target.value.length >= 8);
+        });
+
+        document.getElementById('confirm-password').addEventListener('input', (e) => {
+            const pass = document.getElementById('password').value;
+            const hint = document.getElementById('confirm-hint');
+            hint.classList.toggle('valid', e.target.value === pass && e.target.value.length >= 8);
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorDiv = document.getElementById('error-message');
+            const successDiv = document.getElementById('success-message');
+
+            errorDiv.innerHTML = '';
+            successDiv.innerHTML = '';
+
+            if (password !== confirmPassword) {
+                errorDiv.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Passwords do not match</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successDiv.innerHTML = '<div class="success-message"><i class="fas fa-check-circle"></i> Account created! Redirecting...</div>';
+                    setTimeout(() => window.location.href = '/app', 1500);
+                } else {
+                    errorDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-circle"></i> ${data.error}</div>`;
+                }
+            } catch (error) {
+                errorDiv.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.</div>';
+            }
+        });
+    </script>
+</body>
+</html>
